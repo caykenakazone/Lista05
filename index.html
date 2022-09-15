@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista05</title>
+    <style>
+        
+        form{
+            border:1px solid black;
+            width: 300px;
+            margin: auto;
+            text-align: center;
+            background-color: aliceblue;
+            margin-top: 10px;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        input[type="text"],
+        input[type="tel"],
+        input[type="number"] {
+            width: 85%;
+            border-radius: 10px;
+        }
+        
+
+        input[type="button"],input[type="reset"] {
+            display: block;
+            width: 100px;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        fieldset{
+            width: 80%;   
+            margin: auto;
+        }
+        
+        input{
+            margin-top: 5px;
+            margin-bottom: 10px;
+            
+        }
+        .errorMsg{
+            display: block;
+            color: red;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        select{
+            margin: 10px 0px 10px 2px;
+        }
+
+    </style>
+    <script>
+        function validateSelects() {
+            selects = document.getElementsByTagName("select");
+            for (i=0; i<selects.length; i++) 
+                (selects[i].selectedIndex == 0)?document.getElementById(`${selects[i].name}ERROR`).innerHTML = `Selecione uma opção!`:document.getElementById(`${selects[i].name}ERROR`).innerHTML = ``;
+        }
+        function validate() {
+            tipos = ["TEXT","NUMBER","TEL"];
+            inputs = document.getElementsByTagName("input");
+            for (i=0; i<inputs.length; i++) {
+                if (tipos.includes(inputs[i].type.toUpperCase()) && (inputs[i].value == ""))
+                    document.getElementById(`${inputs[i].name}ERROR`).innerHTML = `${inputs[i].name} está em branco. Tente novamente!`;
+                }
+            if(inputs!=""){
+                alert("Seu cadastro foi feito com sucesso!")
+            }
+        }
+        function validateRadios() {
+            inputs = document.getElementsByTagName("input");
+            for (let i=0; i<inputs.length; i++) {
+                if (inputs[i].type == "radio") {
+                    if (!validateRadio(inputs[i].name)) document.getElementById(`${inputs[i].name}ERROR`).innerHTML = `Selecione uma opção!`;
+                    else document.getElementById(`${inputs[i].name}ERROR`).innerHTML = ``;
+                    i = i + document.getElementsByName(inputs[i].name).length - 1;
+                }
+            }
+        }
+        
+        function limparMsgError(id) {
+            document.getElementById(id).innerHTML = '';
+        }
+        
+    </script>
+</head>
+<body>
+    <form action="">
+        <label for="txtNome">Nome</label>
+        <input type="text" id="txtNome" name="NOME"onkeypress="limparMsgError('NOMEERROR')" >
+        <span id="NOMEERROR" class="errorMsg"></span>
+
+        <label for="txtEnd">Endereço</label>
+        <input type="text" id="txtEnd" name="ENDERECO" onkeypress="limparMsgError('ENDERECOERROR')">
+        <span id="ENDERECOERROR" class="errorMsg"></span>
+
+        <label for="txtTel">Telefone</label>
+        <input type="tel" id="txtTel" name="TELEFONE" onkeypress="limparMsgError('TELEFONEERROR')">
+        <span id="TELEFONEERROR" class="errorMsg"></span>
+
+        <label for="txtIdade">Idade</label>
+        <input type="number" id="txtIdade" name="IDADE" onkeypress="limparMsgError('IDADEERROR')">
+        <span id="IDADEERROR" class="errorMsg"></span>
+
+        <label for="txtEmail">Email</label>
+        <input type="text" id="txtEmail" name="EMAIL" onkeypress="limparMsgError('EMAILERROR')">
+        <span id="EMAILERROR" class="errorMsg"></span>
+
+        <fieldset>
+            <input type="radio" id="masc" name="SEXO"><label for="masc" >Masculino</label>
+            <input type="radio" id="fem" name="SEXO"><label for="fem">Feminino</label>
+            <span id="SEXOERROR" class="errorMsg"></span>
+        </fieldset>
+
+        <label>Estado civil:</label>
+        <select name="ESTADO_CIVIL" id="estadoCivil" onchange="validateSelects()">
+            <option value="">Selecione</option>
+            <option value="casado">Casado</option>
+            <option value="viuvo">Viúvo</option>
+            <option value="divorciado">Divorciado</option>
+        </select>
+        <span id="ESTADO_CIVILERROR" class="errorMsg"></span>
+
+
+
+        <label for="txtArea">Comentários</label>
+        <input type="text">
+
+        <input type="button" id="cadastrar" value="Cadastrar" onclick="validate()" onclick="validateSelects()" onclick="validateRadios()">
+        <input type="reset" id="limpar" value="Limpar" >
+
+    </form>
+</body>
+</html>
